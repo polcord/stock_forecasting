@@ -8,7 +8,7 @@ import pandas as pd
 from sktime.utils.plotting import plot_series
 
 fecha_inicio = '2021-01-01'
-frecuencia = 'D'
+frecuencia = 'B'
 
 df = get_info('GOLD', fecha_inicio)
 df.index = df.index.to_period(frecuencia)
@@ -42,12 +42,6 @@ fh = ForecastingHorizon(
 # y_pred = y_pred.rename('Prediction')
 
 
-# # Calcular el error de pronóstico
-# error = smape_loss(y_test, y_pred)
-# print(f'Error de pronóstico: {error}')
-
-# # plotting for illustration
-# plot_series(y_train, y_test, y_pred, labels=["y_train", "y_test", "y_pred"])
 
 from sktime.datasets import load_airline
 from sktime.forecasting.trend import ProphetPiecewiseLinearTrendForecaster
@@ -58,6 +52,17 @@ forecaster =  ProphetPiecewiseLinearTrendForecaster()
 forecaster.fit(y_train) 
 y_pred = forecaster.predict(fh) 
 print(y_pred)
+
+
+
+# # Calcular el error de pronóstico
+error = smape_loss(y_test, y_pred)
+print(f'Error de pronóstico: {error}')
+
+
+# # plotting for illustration
+plot_series(y_train, y_test, y_pred, labels=["y_train", "y_test", "y_pred"])
+
 
 # import matplotlib.pyplot as plt
 
